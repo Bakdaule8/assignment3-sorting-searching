@@ -22,28 +22,33 @@ class Experiment {
         return end - start;
     }
 
-    void runAllExperiments() {
-        int[] sizes = {10, 100, 1000};
+   void runAllExperiments() {
+    int[] sizes = {10, 100, 1000};
 
-        for (int size : sizes) {
-            int[] arr = sorter.generateRandomArray(size);
+    for (int size : sizes) {
+        int[] arr = sorter.generateRandomArray(size);
 
-            int[] arrCopy1 = arr.clone();
-            int[] arrCopy2 = arr.clone();
+        int[] arrCopy1 = arr.clone();
+        int[] arrCopy2 = arr.clone();
 
-            long t1 = measureSortTime(arrCopy1, "basic");
-            long t2 = measureSortTime(arrCopy2, "advanced");
+        long t1 = measureSortTime(arrCopy1, "basic");
+        long t2 = measureSortTime(arrCopy2, "advanced");
 
-            System.out.println("Size: " + size);
-            System.out.println("Bubble: " + t1);
-            System.out.println("Merge: " + t2);
+        int[] sortedArr = arr.clone();
+        sorter.advancedSort(sortedArr);
 
-            sorter.advancedSort(arr); // sort for binary search
+        long sortedTime = measureSortTime(sortedArr.clone(), "basic");
 
-            long t3 = measureSearchTime(arr, arr[size/2]);
+        System.out.println("Size: " + size);
+        System.out.println("Bubble (random): " + t1);
+        System.out.println("Merge: " + t2);
+        System.out.println("Bubble (sorted): " + sortedTime);
 
-            System.out.println("Binary search: " + t3);
-            System.out.println("-------------------");
-        }
+        sorter.advancedSort(arr);
+        long t3 = measureSearchTime(arr, arr[size/2]);
+
+        System.out.println("Binary search: " + t3);
+        System.out.println("-------------------");
     }
+}
 }
